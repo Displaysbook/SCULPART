@@ -8,27 +8,56 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
+    /* ---------- Base styles ---------- */
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
       background: #f9f9f9;
       color: #222;
     }
+
     header {
-      background: linear-gradient(to right, #000, #222);
+      position: relative;
+      height: 500px;
+      overflow: hidden;
       color: white;
       text-align: center;
-      padding: 100px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 20px;
     }
-    header h1 {
-      font-size: 3.5rem;
-      margin: 0;
+
+    /* ---------- Background carousel ---------- */
+    .background-carousel {
+      position: absolute;
+      top: 0; left: 0;
+      width: 300%;
+      height: 100%;
+      display: flex;
+      animation: slideBg 15s linear infinite;
+      z-index: 0;
     }
-    header p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 20px auto;
+    .background-carousel img {
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+      filter: brightness(0.4);
+      cursor: pointer; /* allow zoom on hero images too */
     }
+    @keyframes slideBg {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-200vw); }
+    }
+
+    /* ---------- Foreground (hero) ---------- */
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    header h1 { font-size: 3.5rem; margin: 0; }
+    header p  { font-size: 1.2rem; max-width: 600px; margin: 20px auto; }
     .cta-button {
       background: white;
       color: black;
@@ -39,11 +68,11 @@
       font-size: 1rem;
       margin-top: 25px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease;
     }
-    .cta-button:hover {
-      background: #eee;
-    }
+    .cta-button:hover { background: #eee; }
+
+    /* ---------- Gallery ---------- */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -54,21 +83,17 @@
       width: 100%;
       border-radius: 12px;
       box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      cursor: pointer; /* enable zoom */
+      transition: transform 0.25s ease;
     }
-    .section {
-      text-align: center;
-      padding: 80px 20px;
-    }
-    .section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    .testimonial {
-      font-style: italic;
-      max-width: 700px;
-      margin: 30px auto;
-      color: #555;
-    }
+    .gallery img:hover { transform: scale(1.03); }
+
+    /* ---------- Sections ---------- */
+    .section { text-align: center; padding: 80px 20px; }
+    .section h2 { font-size: 2.5rem; margin-bottom: 20px; }
+    .testimonial { font-style: italic; max-width: 700px; margin: 30px auto; color: #555; }
+
+    /* ---------- Info steps ---------- */
     .how-it-works {
       display: flex;
       flex-wrap: wrap;
@@ -83,38 +108,78 @@
       width: 250px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .step h3 {
-      margin-top: 10px;
-      font-size: 1.2rem;
-    }
+    .step h3 { margin-top: 10px; font-size: 1.2rem; }
+
+    /* ---------- Footer ---------- */
     .footer {
       background: #111;
       color: #aaa;
       text-align: center;
       padding: 40px 20px;
     }
+    .footer a { color: #ddd; text-decoration: none; }
+
+    /* ---------- Image modal (zoom) ---------- */
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 2000;
+      padding: 20px; /* safe zone */
+    }
+    .image-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .image-modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .image-modal.show img { transform: scale(1); }
   </style>
 </head>
 <body>
 
+  <!-- ---------- Hero ---------- -->
   <header>
-    <h1>Design Your Unique 3D Jewelry</h1>
-    <p>Create stunning custom-made jewelry using 3D modeling and craftsmanship.</p>
-    <button class="cta-button">Explore Collection</button>
+    <div class="background-carousel">
+      <img src="himg/01.jpg" alt="Slide 1">
+      <img src="himg/02.jpg" alt="Slide 2">
+      <img src="himg/03.jpg" alt="Slide 3">
+      <img src="himg/034.jpg" alt="Slide 4">
+    </div>
+
+    <div class="header-content">
+      <h1>Design Your Unique 3D Jewelry</h1>
+      <p>Create stunning custom-made jewelry using 3D modeling and craftsmanship.</p>
+      <button class="cta-button">Explore Collection</button>
+    </div>
   </header>
 
+  <!-- ---------- Featured Creations ---------- -->
   <section class="section">
     <h2>Featured Creations</h2>
     <div class="gallery">
-  <img src="img/1.jpg" alt="Jewelry 1">
-  <img src="img/2.jpg" alt="Jewelry 2">
-  <img src="img/3.jpg" alt="Jewelry 3">
-  <img src="img/4.jpg" alt="Jewelry 4">
-  <img src="img/5.jpg" alt="Jewelry 5">
-  <img src="img/6.jpg" alt="Jewelry 6">
+      <img src="img/1.jpg" alt="Jewelry 1">
+      <img src="img/2.jpg" alt="Jewelry 2">
+      <img src="img/3.jpg" alt="Jewelry 3">
+      <img src="img/4.jpg" alt="Jewelry 4">
+      <img src="img/5.jpg" alt="Jewelry 5">
+      <img src="img/6.jpg" alt="Jewelry 6">
     </div>
   </section>
 
+  <!-- ---------- How it works ---------- -->
   <section class="section">
     <h2>How It Works</h2>
     <div class="how-it-works">
@@ -133,15 +198,79 @@
     </div>
   </section>
 
+  <!-- ---------- Testimonials ---------- -->
   <section class="section">
     <h2>Testimonials</h2>
     <p class="testimonial">"The ring I ordered is absolutely stunning. It was exactly what I dreamed of!"</p>
     <p class="testimonial">"High quality, beautiful detail, and great service. Highly recommended!"</p>
   </section>
 
+  <!-- ---------- Services & Pricing ---------- -->
+  <section class="section">
+    <h2>Our Services & Pricing</h2>
+    <div class="how-it-works">
+      <div class="step">
+        <h3>Design Services</h3>
+        <p>
+          $39/hour<br>
+          Free consultation<br>
+          One free detail revision<br>
+          Free post-processing estimate<br>
+          Real-time support
+        </p>
+      </div>
+      <div class="step">
+        <h3>3D Printing</h3>
+        <p>
+          $0.5/gram<br>
+          Free consultation<br>
+          Starts within 24h<br>
+          High-toughness resin (ABS-like)<br>
+          Real-time support
+        </p>
+      </div>
+      <div class="step">
+        <h3>Design Optimization</h3>
+        <p>
+          From $50/hour<br>
+          More free detail revisions<br>
+          Free post-processing prediction<br>
+          At least 20g free print<br>
+          Real-time support
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- Footer ---------- -->
   <footer class="footer">
-    &copy; 2025 Sculpart Jewelry – All rights reserved | <a href="#" style="color:#ddd;text-decoration:none;">Privacy Policy</a>
+    &copy; 2025 Sculpart Jewelry – All rights reserved | <a href="#">Privacy Policy</a>
   </footer>
+
+  <!-- ---------- Image modal (hidden by default) ---------- -->
+  <div id="image-modal" class="image-modal">
+    <img id="modal-img" src="" alt="Enlarged view" />
+  </div>
+
+  <!-- ---------- JS: click‑to‑zoom ---------- -->
+  <script>
+    const modal     = document.getElementById('image-modal');
+    const modalImg  = document.getElementById('modal-img');
+
+    // Select all images you want to enable zoom for
+    document.querySelectorAll('.gallery img, .background-carousel img').forEach(img => {
+      img.addEventListener('click', () => {
+        modalImg.src = img.src;
+        modal.classList.add('show');
+      });
+    });
+
+    // Click anywhere on the overlay to close
+    modal.addEventListener('click', () => {
+      modal.classList.remove('show');
+      modalImg.src = '';
+    });
+  </script>
 
 </body>
 </html>
